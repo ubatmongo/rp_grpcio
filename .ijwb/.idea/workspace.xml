@@ -13,9 +13,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fb2cc8c9-b2b3-42a3-baab-164679919d0f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../WORKSPACE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../rp_grpcio/src/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../rp_grpcio/src/calculator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +47,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1666900231036</updated>
-      <workItem from="1666900232174" duration="3024000" />
+      <workItem from="1666900232174" duration="4056000" />
     </task>
     <servers />
   </component>
