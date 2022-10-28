@@ -1,9 +1,9 @@
 load("@pypi//:requirements.bzl", "requirement")
 load("@rules_python//python:defs.bzl", "py_binary", "py_test")
 
-py_library(
+py_binary(
     name = "rp_grpcio",
-    srcs = ["runner.py"],
+    srcs = ["main.py"],
     deps = [
         requirement("grpcio"),
     ],
