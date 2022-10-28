@@ -129,8 +129,10 @@ dmypy.json
 .pyre/
 
 # bazel
-.ijwb/
+.ijwb
 bazel-bin/
 bazel-out/
 bazel-rp_grpcio/
 bazel-testlogs/
+
+.idea

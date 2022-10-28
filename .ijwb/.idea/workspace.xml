@@ -15,6 +15,10 @@
     <list default="true" id="fb2cc8c9-b2b3-42a3-baab-164679919d0f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bazel-bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bazel-out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bazel-rp_grpcio" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bazel-testlogs" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +51,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1666900231036</updated>
-      <workItem from="1666900232174" duration="4056000" />
+      <workItem from="1666900232174" duration="4282000" />
     </task>
     <servers />
   </component>
