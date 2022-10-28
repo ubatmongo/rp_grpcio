@@ -1,0 +1,16 @@
+directories:
+  .
+  -out
+  -data
+  -rp_grpcio/*
+
+targets:
+  //...:all
+
+test_sources:
+  rp_grpcio/tests/*
+
+additional_languages:
+  python
+
+java_language_level: 11
