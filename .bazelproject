@@ -1,11 +1,13 @@
 directories:
   .
+  # src
+  # tests
   -out
   -data
-  -rp_grpcio/*
+
 
 targets:
-  //...:all
+
 
 test_sources:
   rp_grpcio/tests/*

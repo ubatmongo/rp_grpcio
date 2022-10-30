@@ -130,9 +130,9 @@ dmypy.json
 
 # bazel
 .ijwb
-bazel-bin/
-bazel-out/
-bazel-rp_grpcio/
-bazel-testlogs/
+bazel-bin
+bazel-out
+bazel-rp_grpcio
+bazel-testlogs
 
 .idea
