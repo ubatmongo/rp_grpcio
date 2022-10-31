@@ -10,20 +10,30 @@
   </component>
   <component name="BlazeSyncStatusState">
     <option name="dirty" value="true" />
+    <option name="lastSyncFailed" value="true" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fb2cc8c9-b2b3-42a3-baab-164679919d0f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.bazelrc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../proto/BUILD" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.bazelproject" beforeDir="false" afterPath="$PROJECT_DIR$/.bazelproject" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../bazel-bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../bazel-out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../bazel-rp_grpcio" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../bazel-testlogs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BUILD" beforeDir="false" afterPath="$PROJECT_DIR$/../BUILD" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WORKSPACE" beforeDir="false" afterPath="$PROJECT_DIR$/../WORKSPACE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../requirements.in" beforeDir="false" afterPath="$PROJECT_DIR$/../requirements.in" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -32,6 +42,9 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2GjRuNOQMVukkNJXnIoD2LbLUfL" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -40,9 +53,71 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false"
+    "WebServerToolWindowFactoryState": "false",
+    "settings.editor.selected.configurable": "blaze.view"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/.." />
+      <recent name="$PROJECT_DIR$/../rp_grpcio/src" />
+      <recent name="$PROJECT_DIR$/../rp_grpcio" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Bazel Command.Bazel run :rp_grpcio">
+    <configuration name="Bazel run :greeter_client" type="BlazeCommandRunConfigurationType" factoryName="Bazel Command" temporary="true" nameIsGenerated="true">
+      <blaze-settings handler-id="BlazePyRunConfigurationHandlerProvider" kind="py_binary" blaze-command="run">
+        <blaze-target>//:greeter_client</blaze-target>
+        <env_state>
+          <envs />
+        </env_state>
+      </blaze-settings>
+      <method v="2">
+        <option name="Blaze.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Bazel run :greeter_server" type="BlazeCommandRunConfigurationType" factoryName="Bazel Command" temporary="true" nameIsGenerated="true">
+      <blaze-settings handler-id="BlazePyRunConfigurationHandlerProvider" kind="py_binary" blaze-command="run">
+        <blaze-target>//:greeter_server</blaze-target>
+        <env_state>
+          <envs />
+        </env_state>
+      </blaze-settings>
+      <method v="2">
+        <option name="Blaze.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Bazel run :rp_grpcio" type="BlazeCommandRunConfigurationType" factoryName="Bazel Command" temporary="true" nameIsGenerated="true">
+      <blaze-settings handler-id="BlazePyRunConfigurationHandlerProvider" kind="py_binary" blaze-command="run">
+        <blaze-target>//:rp_grpcio</blaze-target>
+        <env_state>
+          <envs />
+        </env_state>
+      </blaze-settings>
+      <method v="2">
+        <option name="Blaze.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Bazel run rp_grpcio:rp_grpcio" type="BlazeCommandRunConfigurationType" factoryName="Bazel Command" temporary="true" nameIsGenerated="true">
+      <blaze-settings handler-id="BlazeCommandGenericRunConfigurationHandlerProvider" kind="py_binary" blaze-command="run">
+        <env_state>
+          <envs />
+        </env_state>
+        <blaze-target>//rp_grpcio:rp_grpcio</blaze-target>
+      </blaze-settings>
+      <method v="2">
+        <option name="Blaze.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Bazel Command.Bazel run :rp_grpcio" />
+        <item itemvalue="Bazel Command.Bazel run :greeter_client" />
+        <item itemvalue="Bazel Command.Bazel run :greeter_server" />
+        <item itemvalue="Bazel Command.Bazel run rp_grpcio:rp_grpcio" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -51,7 +126,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1666900231036</updated>
-      <workItem from="1666900232174" duration="4282000" />
+      <workItem from="1666900232174" duration="19442000" />
     </task>
     <servers />
   </component>
