@@ -1,3 +1,4 @@
 build --verbose_failures=true
 common --announce_rc
 build --explain=explain.log --verbose_explanations
+build --incompatible_default_to_explicit_init_py
