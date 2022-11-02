@@ -61,7 +61,6 @@ py_binary(
     name = "rp_grpcio",
     srcs = ["rp_grpcio.py"],
     deps = [
-        requirement("grpcio"),
         requirement("google-cloud-storage"),
     ],
 )
