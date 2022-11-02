@@ -136,3 +136,6 @@ bazel-rp_grpcio
 bazel-testlogs
 
 .idea
+
+# project
+explain.log
