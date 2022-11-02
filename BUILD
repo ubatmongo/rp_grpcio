@@ -63,5 +63,9 @@ py_binary(
     srcs = ["rp_grpcio.py"],
     deps = [
         requirement("google-cloud-storage"),
+
+        # fake runtime deps
+        requirement("aiodns"),
+        requirement("cchardet"),
     ],
 )
