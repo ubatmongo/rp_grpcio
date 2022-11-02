@@ -1,15 +1,17 @@
 load("@bazel_skylib//rules:diff_test.bzl", "diff_test")
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
 
-#load("@pypi//:requirements.bzl", "requirement")
-load("@rules_python//python:defs.bzl", "py_binary", "py_test")
-load("@rules_python//python:pip.bzl", "compile_pip_requirements", "pip_parse")
+load("@rules_python//python:defs.bzl", "py_binary")
+load("@rules_python//python:pip.bzl", "compile_pip_requirements")
+load("@pypi//:requirements.bzl", "requirement")
 
 compile_pip_requirements(
     name = "requirements",
     extra_args = ["--allow-unsafe"],
     requirements_in = "requirements.in",
-    requirements_txt = "requirements_lock.txt",
+    requirements_txt = None,
+    requirements_darwin = "//:requirements_darwin.txt",
+    requirements_linux = "//:requirements_linux.txt",
 )
 
 # The requirements.bzl file is generated with a reference to the interpreter for the host platform.

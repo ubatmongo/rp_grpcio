@@ -19,20 +19,25 @@ python_register_toolchains(
     python_version = "3.9",
 )
 
-load("@rules_python//python:pip.bzl", "pip_parse")
 load("@python39//:defs.bzl", "interpreter")
 
-pip_parse(
+load("@rules_python//python/pip_install:repositories.bzl", "pip_install_dependencies")
+
+pip_install_dependencies()
+
+load("@rules_python//python/pip_install:pip_repository.bzl", "pip_repository")
+
+pip_repository(
     name = "pypi",
     extra_pip_args = ["-v"],
     python_interpreter_target = interpreter,
     quiet = False,
-    requirements_lock = "//:requirements_lock.txt",
+    requirements_darwin = "//:requirements_darwin.txt",
+    requirements_linux = "//:requirements_linux.txt",
 )
 
 load("@pypi//:requirements.bzl", "install_deps")
 
-# Initialize repositories for all packages in requirements_lock.txt.
 install_deps()
 
 # protobuf
