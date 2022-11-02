@@ -1,1 +1,3 @@
-build --verbose_failures
+build --verbose_failures=true
+common --announce_rc
+build --explain=explain.log --verbose_explanations
