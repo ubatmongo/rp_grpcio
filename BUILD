@@ -9,7 +9,6 @@ compile_pip_requirements(
     name = "requirements",
     extra_args = ["--allow-unsafe"],
     requirements_in = "requirements.in",
-    requirements_txt = None,
     requirements_darwin = "//:requirements_darwin.txt",
     requirements_linux = "//:requirements_linux.txt",
 )
