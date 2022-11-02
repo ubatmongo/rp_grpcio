@@ -1,1 +1,4 @@
-# this file is intentionally left blank
+# DO NOT COMMIT CHANGES TO THIS FILE
+
+# When running :requirements.update, pip-compile will put platform-dependent requirements in this file
+# Move the contents to requirements_darwin.txt or requirements_linux.txt and commit those instead
