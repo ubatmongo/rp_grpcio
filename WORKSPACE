@@ -21,6 +21,26 @@ python_register_toolchains(
 
 load("@python39//:defs.bzl", "interpreter")
 
+# Override rules_python's version of installer to patch around https://github.com/pypa/installer/issues/134
+http_archive(
+    name = "pypi__installer",
+    url = "https://files.pythonhosted.org/packages/1b/21/3e6ebd12d8dccc55bcb7338db462c75ac86dbd0ac7439ac114616b21667b/installer-0.5.1-py3-none-any.whl",
+    sha256 = "1d6c8d916ed82771945b9c813699e6f57424ded970c9d8bf16bbc23e1e826ed3",
+    type = "zip",
+    build_file_content = """
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_python//python:defs.bzl", "py_library")
+
+py_library(
+    name = "lib",
+    srcs = glob(["**/*.py"]),
+    imports = ["."],
+)
+""",
+    patches = ["//:installer_canonicalize_wheel_name.diff"],  # https://github.com/pypa/installer/pull/137
+)
+
 load("@rules_python//python/pip_install:repositories.bzl", "pip_install_dependencies")
 
 pip_install_dependencies()
