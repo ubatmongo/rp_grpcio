@@ -1,0 +1,57 @@
+diff --git installer/sources.py installer/sources.py
+index fa0bc34..03c16f9 100644
+--- installer/sources.py
++++ installer/sources.py
+@@ -122,6 +122,33 @@ def open(cls, path: "os.PathLike[str]") -> Iterator["WheelFile"]:
+         with zipfile.ZipFile(path) as f:
+             yield cls(f)
+ 
++    @property
++    def dist_info_dir(self) -> str:
++        """Name of the dist-info directory."""
++        if not hasattr(self, "_dist_info_dir"):
++            top_level_directories = {
++                path.split("/", 1)[0] for path in self._zipfile.namelist()
++            }
++            dist_infos = [
++                name for name in top_level_directories if name.endswith(".dist-info")
++            ]
++
++            assert (
++                len(dist_infos) == 1
++            ), "Wheel doesn't contain exactly one .dist-info directory"
++            dist_info_dir = dist_infos[0]
++
++            # NAME-VER.dist-info
++            di_dname = dist_info_dir.rsplit("-", 2)[0]
++            norm_di_dname = installer.utils.normalize_distribution_name(di_dname)
++            norm_file_dname = installer.utils.normalize_distribution_name(self.distribution)
++            assert (
++                norm_di_dname == norm_file_dname
++            ), "Wheel .dist-info directory doesn't match wheel filename"
++
++            self._dist_info_dir = dist_info_dir
++        return self._dist_info_dir
++
+     @property
+     def dist_info_filenames(self) -> List[str]:
+         """Get names of all files in the dist-info directory."""
+diff --git installer/utils.py installer/utils.py
+index 3da89e4..cb412d7 100644
+--- installer/utils.py
++++ installer/utils.py
+@@ -93,6 +93,14 @@ def parse_metadata_file(contents: str) -> Message:
+     return feed_parser.close()
+ 
+ 
++def normalize_distribution_name(name: str) -> str:
++    """Normalize a project name according to PEP-503.
++
++    :param name: The project name to normalize
++    """
++    return re.sub(r"[-_.]+", "-", name).lower()
++
++
+ def parse_wheel_filename(filename: str) -> WheelFilename:
+     """Parse a wheel filename, into it's various components.
+ 
