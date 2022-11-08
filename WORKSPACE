@@ -3,7 +3,7 @@ workspace(name = "rp_grpcio")
 # Inbuilt repos
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 
-# Go
+# Override rules_go https://github.com/bazelbuild/rules_docker/issues/2036
 http_archive(
     name = "io_bazel_rules_go",
     sha256 = "099a9fb96a376ccbbb7d291ed4ecbdfd42f6bc822ab77ae6f1b5cb9e914e94fa",
@@ -41,8 +41,6 @@ http_archive(
     url = "https://github.com/bazelbuild/rules_python/archive/refs/tags/0.13.0.tar.gz",
 )
 
-register_toolchains("//:container_py_toolchain")
-
 # Docker
 http_archive(
     name = "io_bazel_rules_docker",
@@ -61,19 +59,19 @@ load("@io_bazel_rules_docker//repositories:deps.bzl", container_deps = "deps")
 
 container_deps()
 
+register_toolchains("//:container_py_toolchain")
+
 load("@io_bazel_rules_docker//python:image.bzl", _py_image_repos = "repositories")
 
 _py_image_repos()
 
+# Defer python toolchains til after we've registered our internal ones
 load("@rules_python//python:repositories.bzl", "python_register_toolchains")
 
-# Defer registering rules_python's toolchains til rules_docker has gotten a chance to register its Python toolchains for in-container
 python_register_toolchains(
     name = "python39",
     python_version = "3.9",
 )
-
-load("@python39//:defs.bzl", "interpreter")
 
 # Override rules_python's version of installer to patch around https://github.com/pypa/installer/issues/134
 http_archive(
@@ -100,6 +98,7 @@ load("@rules_python//python/pip_install:repositories.bzl", "pip_install_dependen
 pip_install_dependencies()
 
 load("@rules_python//python/pip_install:pip_repository.bzl", "pip_repository")
+load("@python39//:defs.bzl", "interpreter")
 
 # deps
 pip_repository(
@@ -119,8 +118,8 @@ load("@rules_python//python:versions.bzl", get_python_release_url = "get_release
 
 http_file(
     name = "python3_interpreter",
-    downloaded_file_path = "python.tar.gz",
     url = python_url,
+    downloaded_file_path = "python.tar.gz",
 )
 
 load(
