@@ -18,5 +18,5 @@ linux="$(rlocation rp_grpcio/compile_linux_deps.executable)"
 
 $mac ./requirements.in requirements_darwin.txt None None None "//:requirements.update" --allow-unsafe
 
-$linux --norun 
+$linux --norun
 docker run bazel:compile_linux_deps > "$BUILD_WORKSPACE_DIRECTORY/requirements_linux.txt"
