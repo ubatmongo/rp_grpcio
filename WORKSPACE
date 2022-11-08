@@ -1,7 +1,7 @@
 workspace(name = "rp_grpcio")
 
 # Inbuilt repos
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 
 # Go
 http_archive(
@@ -40,6 +40,8 @@ http_archive(
     strip_prefix = "rules_python-0.13.0",
     url = "https://github.com/bazelbuild/rules_python/archive/refs/tags/0.13.0.tar.gz",
 )
+
+register_toolchains("//:container_py_toolchain")
 
 # Docker
 http_archive(
@@ -111,15 +113,25 @@ load("@pypi//:requirements.bzl", "install_deps")
 
 install_deps()
 
+load("@rules_python//python:versions.bzl", get_python_release_url = "get_release_url")
+
+(_, python_url, _) = get_python_release_url("x86_64-unknown-linux-gnu", "3.9.13")
+
+http_file(
+    name = "python3_interpreter",
+    downloaded_file_path = "python.tar.gz",
+    url = python_url,
+)
+
 load(
     "@io_bazel_rules_docker//container:container.bzl",
     "container_pull",
 )
 
 container_pull(
-    name = "python39_image",
+    name = "amazon2_linux",
     architecture = "amd64",
     registry = "index.docker.io",
-    repository = "python",
-    tag = "3.9-bullseye",
+    repository = "amazonlinux",
+    tag = "2",
 )

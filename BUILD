@@ -1,11 +1,8 @@
-load("@io_bazel_rules_docker//container:container.bzl", "container_image")  #, "container_layer")
+load("@io_bazel_rules_docker//container:container.bzl", "container_image", "container_layer")
 load("@io_bazel_rules_docker//python:image.bzl", "py_layer")
 load("@io_bazel_rules_docker//python3:image.bzl", "py3_image")
 
-#load("@rules_pkg//:pkg.bzl", "pkg_tar")
-#load("@rules_pkg//:mappings.bzl", "pkg_files")
-
-load("@rules_python//python:defs.bzl", "py_binary")
+load("@rules_python//python:defs.bzl", "py_binary", "py_runtime", "py_runtime_pair")
 load("@rules_python//python:pip.bzl", "compile_pip_requirements")
 
 load("@pypi//:requirements.bzl", "requirement")
@@ -17,8 +14,6 @@ compile_pip_requirements(
     requirements_darwin = "//:requirements_darwin.txt",
     requirements_linux = "//:requirements_linux.txt",
 )
-
-load("@pypi//:requirements.bzl", "requirement")
 
 py_binary(
     name = "rp_grpcio",
@@ -106,34 +101,39 @@ py_binary(
     ],
 )
 
-#pkg_files(
-#    name = "python_files",
-#    srcs = ["@python39_x86_64-unknown-linux-gnu//:files"],
-#    strip_prefix = "",
-#)
+py_runtime(
+    name = "container_py3_runtime",
+    interpreter_path = "/opt/python/bin/python3",
+    python_version = "PY3",
+)
 
-#pkg_tar(
-#    name = "python_layer_tar",
-#    srcs = [":python_files"],
-#)
+py_runtime_pair(
+    name = "container_py_runtime_pair",
+    py3_runtime = ":container_py3_runtime",
+)
 
-#container_layer(
-#    name = "python_layer",
-#    directory = "/usr/local",
-#    tars = [":python_layer_tar"],
-#)
+toolchain(
+    name = "container_py_toolchain",
+    exec_compatible_with = [
+        "@io_bazel_rules_docker//platforms:run_in_container",
+    ],
+    toolchain = "container_py_runtime_pair",
+    toolchain_type = "@rules_python//python:toolchain_type",
+)
 
-#container_image(
-#    name = "python_base",
-#    base = "@amazon2_linux//image",
-#    layers = [":python_layer"],
-#)
+container_layer(
+    name = "python_layer",
+    directory = "/opt",
+    tars = ["@python3_interpreter//file"],
+    operating_system = "linux",
+)
 
 container_image(
-    name = "python_compat",
-    base = "@python39_image//image",
+    name = "python_base",
+    base = "@amazon2_linux//image",
+    layers = [":python_layer"],
     symlinks = {
-        "/usr/bin/python": "/usr/local/bin/python"
+        "/usr/bin/python": "/opt/python/bin/python3"
     }
 )
 
@@ -160,7 +160,7 @@ py3_image(
     deps = ["@rules_python//python/runfiles"],
     layers = [":pip_tools_deps"],
     main = "compile_deps.py",
-    base = ":python_compat",
+    base = ":python_base",
 )
 
 sh_binary(
