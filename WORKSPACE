@@ -67,10 +67,11 @@ _py_image_repos()
 
 # Defer python toolchains til after we've registered our internal ones
 load("@rules_python//python:repositories.bzl", "python_register_toolchains")
+PYTHON_VERSION = "3.9.13"
 
 python_register_toolchains(
     name = "python39",
-    python_version = "3.9",
+    python_version = PYTHON_VERSION,
 )
 
 # Override rules_python's version of installer to patch around https://github.com/pypa/installer/issues/134
@@ -114,7 +115,7 @@ install_deps()
 
 load("@rules_python//python:versions.bzl", get_python_release_url = "get_release_url")
 
-(_, python_url, _) = get_python_release_url("x86_64-unknown-linux-gnu", "3.9.13")
+(_, python_url, _) = get_python_release_url("x86_64-unknown-linux-gnu", PYTHON_VERSION)
 
 http_file(
     name = "python3_interpreter",
