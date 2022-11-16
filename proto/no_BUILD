@@ -1,8 +1,0 @@
-#https://github.com/rules-proto-grpc/rules_proto_grpc/blob/master/example/python/python_grpclib_compile/WORKSPACE
-
-load("@rules_proto_grpc//python:defs.bzl", "python_grpclib_library")
-
-python_grpclib_library(
-    name = "greeter_python_grpc",
-    protos = ["greeting.proto"],
-)

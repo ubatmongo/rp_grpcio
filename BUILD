@@ -1,8 +1,10 @@
-load("@bazel_skylib//rules:diff_test.bzl", "diff_test")
-load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load("@io_bazel_rules_docker//container:container.bzl", "container_image", "container_layer")
+load("@io_bazel_rules_docker//python:image.bzl", "py_layer")
+load("@io_bazel_rules_docker//python3:image.bzl", "py3_image")
 
-load("@rules_python//python:defs.bzl", "py_binary")
+load("@rules_python//python:defs.bzl", "py_binary", "py_runtime", "py_runtime_pair")
 load("@rules_python//python:pip.bzl", "compile_pip_requirements")
+
 load("@pypi//:requirements.bzl", "requirement")
 
 compile_pip_requirements(
@@ -12,51 +14,6 @@ compile_pip_requirements(
     requirements_darwin = "//:requirements_darwin.txt",
     requirements_linux = "//:requirements_linux.txt",
 )
-
-# The requirements.bzl file is generated with a reference to the interpreter for the host platform.
-# In order to check in a platform-agnostic file, we have to replace that reference with the symbol
-# loaded from our python toolchain.
-genrule(
-    name = "make_platform_agnostic",
-    srcs = ["@pypi//:requirements.bzl"],
-    outs = ["requirements.clean.bzl"],
-    cmd = " | ".join([
-        "cat $<",
-        # Insert our load statement after the existing one so we don't produce a file with buildifier warnings
-        """sed -e '/^load.*/i\\'$$'\\n''load("@python39//:defs.bzl", "interpreter")'""",
-        """tr "'" '"' """,
-        """sed 's#"@python39_.*//:bin/python3"#interpreter#' >$@""",
-    ]),
-)
-
-write_file(
-    name = "gen_update",
-    out = "update.sh",
-    content = [
-        # This depends on bash, would need tweaks for Windows
-        "#!/usr/bin/env bash",
-        # Bazel gives us a way to access the source folder!
-        "cd $BUILD_WORKSPACE_DIRECTORY",
-        "cp -fv bazel-bin/requirements.clean.bzl requirements.bzl",
-    ],
-)
-
-sh_binary(
-    name = "vendor_requirements",
-    srcs = ["update.sh"],
-    data = [":make_platform_agnostic"],
-)
-
-# Similarly ensures that the requirements.bzl file is updated
-# based on the requirements.txt lockfile.
-diff_test(
-    name = "test_vendored",
-    failure_message = "Please run:  bazel run //:vendor_requirements",
-    file1 = "requirements.bzl",
-    file2 = ":make_platform_agnostic",
-)
-
-load("@pypi//:requirements.bzl", "requirement")
 
 py_binary(
     name = "rp_grpcio",
@@ -142,4 +99,76 @@ py_binary(
         requirement("urllib3"),
         requirement("yarl"),
     ],
+)
+
+py_runtime(
+    name = "container_py3_runtime",
+    interpreter_path = "/opt/python/bin/python3",
+    python_version = "PY3",
+)
+
+py_runtime_pair(
+    name = "container_py_runtime_pair",
+    py3_runtime = ":container_py3_runtime",
+)
+
+toolchain(
+    name = "container_py_toolchain",
+    exec_compatible_with = [
+        "@io_bazel_rules_docker//platforms:run_in_container",
+    ],
+    toolchain = "container_py_runtime_pair",
+    toolchain_type = "@rules_python//python:toolchain_type",
+)
+
+container_layer(
+    name = "python_layer",
+    directory = "/opt",
+    tars = ["@python3_interpreter//file"],
+    operating_system = "linux",
+)
+
+container_image(
+    name = "python_base",
+    base = "@amazon2_linux//image",
+    layers = [":python_layer"],
+    symlinks = {
+        "/usr/bin/python": "/opt/python/bin/python3"
+    }
+)
+
+py_layer(
+    name = "pip_tools_deps",
+    deps = [
+        "@pypi__pip_tools//:lib",
+        "@pypi__build//:lib",
+        "@pypi__pep517//:lib",
+        "@pypi__tomli//:lib",
+        "@pypi__importlib_metadata//:lib",
+        "@pypi__colorama//:lib",
+        "@pypi__click//:lib",
+        "@pypi__pip//:lib",
+        "@pypi__setuptools//:lib",
+        "@pypi__wheel//:lib"
+    ]
+)
+
+py3_image(
+    name = "compile_linux_deps",
+    srcs = ["compile_deps.py"],
+    data = ["requirements.in"],
+    deps = ["@rules_python//python/runfiles"],
+    layers = [":pip_tools_deps"],
+    main = "compile_deps.py",
+    base = ":python_base",
+)
+
+sh_binary(
+    name = "compile_all_deps",
+    srcs = [":compile_all_deps.sh"],
+    data = [
+        ":requirements.update",
+        ":compile_linux_deps"
+    ],
+    deps = ["@bazel_tools//tools/bash/runfiles"],
 )
